@@ -135,8 +135,8 @@ func (l *List) Remove(pos int) error {
 	return nil
 }
 
-// Print is used to print the List.
-func (l *List) Print() {
+// Show is used to print the List.
+func (l *List) Show() {
 	current := l.Head
 
 	for current.Next != nil {
