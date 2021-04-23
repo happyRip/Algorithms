@@ -16,7 +16,8 @@ func NewNode(v int) *node {
 }
 
 type list struct {
-	head *node
+	length int
+	head   *node
 }
 
 // NewList returns a new list list instance
@@ -30,6 +31,7 @@ func (l *list) PushBack(v int) error {
 
 	if l.head == nil {
 		l.head = n
+		l.length++
 		return nil
 	}
 
@@ -38,6 +40,7 @@ func (l *list) PushBack(v int) error {
 		current = current.next
 	}
 	current.next = n
+	l.length++
 	return nil
 }
 
@@ -47,6 +50,7 @@ func (l *list) PushFront(v int) error {
 
 	n.next = l.head
 	l.head = n
+	l.length++
 	return nil
 }
 
@@ -71,6 +75,7 @@ func (l *list) Insert(v, pos int) error {
 	}
 	n.next = current.next
 	current.next = n
+	l.length++
 	return nil
 }
 
@@ -86,6 +91,7 @@ func (l *list) PopBack() (int, error) {
 	}
 	v := current.next.value
 	current.next = nil
+	l.length--
 	return v, nil
 }
 
@@ -101,6 +107,7 @@ func (l *list) PopFront() (int, error) {
 	} else {
 		l.head = nil
 	}
+	l.length--
 	return v, nil
 }
 
@@ -112,6 +119,7 @@ func (l *list) Remove(pos int) error {
 		return errors.New("list is empty")
 	} else if pos == 0 {
 		l.head = l.head.next
+		l.length--
 		return nil
 	}
 
@@ -123,64 +131,12 @@ func (l *list) Remove(pos int) error {
 		current = current.next
 	}
 	current.next = current.next.next
+	l.length--
 	return nil
 }
 
-// PeekBack returns the last value of a list without removing it
-func (l *list) PeekBack() (int, error) {
-	if l.head == nil {
-		return 0, errors.New("list is empty")
-	}
-
-	current := l.head
-	for current.next != nil {
-		current = current.next
-	}
-	return current.value, nil
-}
-
-// PeekFront returns the first value of a list without removing it
-func (l *list) PeekFront() (int, error) {
-	if l.head == nil {
-		return 0, errors.New("list is empty")
-	}
-	return l.head.value, nil
-}
-
-// Seek returns the value located on a position pos without removing it
-func (l *list) Seek(pos int) (int, error) {
-	if pos < 0 {
-		return 0, errors.New("position out of scope")
-	} else if l.head == nil {
-		return 0, errors.New("list is empty")
-	} else if pos == 0 {
-		return l.PeekFront()
-	}
-
-	current := l.head
-	for i := 0; i < pos-1; i++ {
-		if current.next == nil {
-			return 0, errors.New("position out of scope")
-		}
-		current = current.next
-	}
-	return current.next.value, nil
-}
-
-// Size is used to get size of the list
-func (l *list) Size() int {
-	if l.head == nil {
-		return 0
-	}
-
-	var size int
-	current := l.head
-	for current.next != nil {
-		size++
-		current = current.next
-	}
-	size++
-	return size
+func (l *list) Length() int {
+	return l.length
 }
 
 // Show is used to print the list.
