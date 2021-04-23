@@ -1,2 +1,2 @@
-# Algorithms and Data Structures
-Some basic algorithms and data structures implemented for practise.
+# Algorithms
+Some basic algorithms implemented in go for practise.
